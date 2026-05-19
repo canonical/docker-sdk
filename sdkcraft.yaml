@@ -1,0 +1,24 @@
+name: docker
+adopt-info: docker
+summary: Docker container runtime
+description: |
+  This SDK provides the Docker container runtime for building and running
+  container images inside a workshop. Docker is installed from the official
+  snap package. Docker configuration and credentials are persisted on the host
+  across workshop updates.
+license: Apache-2.0
+platforms:
+  ubuntu@22.04:amd64:
+  ubuntu@24.04:amd64:
+
+plugs:
+  docker-config:
+    interface: mount
+    workshop-target: /home/workshop/.docker
+
+parts:
+  docker:
+    plugin: nil
+    override-pull: |
+      VERSION=$(cat "$CRAFT_PROJECT_DIR/VERSION")
+      craftctl set version="$VERSION"

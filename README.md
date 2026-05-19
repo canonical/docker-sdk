@@ -1,47 +1,108 @@
-<!--
-# SDK README Template for Workshop
+# Docker SDK for Workshop
 
-OVERALL DESIGN (for sdkcraft.yaml description field):
+This SDK provides the Docker container runtime for building and running
+container images inside a workshop. Docker is installed from the official snap
+package. Docker configuration and credentials are persisted on the host across
+workshop updates.
 
-The sdkcraft.yaml `description` field should match the README overview
-paragraph so it can be reused in `sdk info` output. Write it as a short YAML
-multiline string — no sub-headings, no bullet lists. Follow this pattern:
+---
 
-description: |
-  This SDK provides [toolchain/runtime] for [purpose].
-  [Key resources] are persisted on the host to speed up [builds/installs]
-  across workshop updates.
+## Reference workshop
 
-Examples from approved SDKs:
+A minimal workshop:
 
-  # go
-  description: |
-    This SDK provides the official Go toolchain for efficient Go
-    development. Module downloads are persisted on the host to speed up builds
-    across workshop updates, and Go environment settings are preserved between
-    workshop updates.
+```yaml
+# workshop.yaml
+name: my-docker-workshop
+base: ubuntu@24.04
+sdks:
+  - name: docker
+    channel: latest/stable
+```
 
-  # node
-  description: |
-    This SDK provides a complete Node.js development environment built from
-    source, with Corepack enabled for flexible package manager choice. Package
-    manager caches are persisted on the host to speed up dependency
-    installations across workshop updates.
+This gives you a fully configured Docker environment where the `workshop` user
+can run `docker` commands without `sudo`.
 
-README TEMPLATE INSTRUCTIONS:
+---
 
-1. Copy this file to your SDK repository directory as README.md
-2. Replace all placeholders in [SQUARE BRACKETS] with your actual content;
-   replace XYZ, FOO, BAR with real product names
-3. Remove any sections that don't apply to your SDK for simplicity
-4. Delete this comment block before publishing
-5. Test all command examples before publishing
+## Using the SDK
 
-Focus on the SDK's behavior, not the target library/framework documentation.
-Link to upstream docs for product-related specifics.
+### Prerequisites, project layout
 
-Do NOT include "Installed components" or "Platforms, channels, versions"
-sections. Component details should be folded into the overview paragraph.
+1. No prerequisite SDKs are required.
+2. No specific project layout is needed.
+3. On launch the SDK installs the Docker snap, creates the `docker` system
+   group, and adds the `workshop` user to it.
+
+### Building and running containers
+
+```bash
+workshop shell
+docker run hello-world
+docker build -t myapp .
+docker compose up
+```
+
+### Verify from the command line
+
+```bash
+workshop shell
+docker version
+docker info
+```
+
+---
+
+## Plugs (resources this SDK consumes)
+
+### `docker-config`
+
+- Interface: `mount`
+- Workshop target: `/home/workshop/.docker`
+- Purpose: Persists Docker CLI configuration and registry credentials across
+  workshop updates.
+
+## Slots (resources this SDK provides)
+
+This SDK doesn't define any slots.
+
+---
+
+## Documentation and guidance
+
+- [Docker official documentation](https://docs.docker.com/)
+- [Workshop documentation](https://canonical-workshop.readthedocs-hosted.com/latest/)
+
+---
+
+## Community and support
+
+- Docker community:
+  [Docker Community Forums](https://forums.docker.com/)
+- Workshop forum:
+  [Workshop Discourse](https://discourse.canonical.com/c/engineering/workshops/34)
+- Please review our
+  [Code of Conduct](https://ubuntu.com/community/ethos/code-of-conduct) before
+  participating.
+
+---
+
+## Contributions
+
+All contributions, including code, documentation updates, and issue reports,
+are welcome!
+
+- See `CONTRIBUTING.md` for guidelines.
+- Open issues or pull requests on the official repository.
+
+---
+
+## License and copyright
+
+Copyright 2025 Canonical Ltd.
+
+Docker is licensed under the
+[Apache License 2.0](https://github.com/moby/moby/blob/master/LICENSE).
 Channel information belongs in `sdk info`, not the README.
 
 SECTION GUIDE:

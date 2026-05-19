@@ -1,0 +1,13 @@
+if ! command -v docker >/dev/null 2>&1; then
+  workshopctl set-health error "docker not found on PATH"
+  exit 0
+fi
+
+if ! sudo -u workshop docker info >/dev/null 2>&1; then
+  workshopctl set-health waiting "Docker daemon not ready yet"
+  exit 0
+fi
+
+VERSION=$(sudo -u workshop docker version --format '{{.Server.Version}}' 2>/dev/null || echo "unknown")
+echo "Docker Engine ${VERSION}"
+workshopctl set-health okay
