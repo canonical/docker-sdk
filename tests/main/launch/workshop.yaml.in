@@ -1,0 +1,4 @@
+name: test-docker-ce
+base: ${BASE}
+sdks:
+  - name: try-docker-ce
