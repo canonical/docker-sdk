@@ -1,0 +1,15 @@
+summary: Launch a workshop with the docker SDK
+
+prepare: |
+  envsubst '${BASE}' <workshop.yaml.in >workshop.yaml
+  workshop launch
+
+restore: |
+  workshop remove || true
+
+execute: |
+  workshop exec -- docker version
+  workshop exec -- docker info
+
+debug: |
+  workshop tasks
