@@ -7,9 +7,12 @@ description: |
   Docker apt repository. Docker configuration and credentials are persisted
   on the host across workshop updates.
 license: Apache-2.0
+website: https://github.com/canonical/docker-sdk
 platforms:
   ubuntu@22.04:amd64:
+  ubuntu@22.04:arm64:
   ubuntu@24.04:amd64:
+  ubuntu@24.04:arm64:
 
 plugs:
   docker-config:
