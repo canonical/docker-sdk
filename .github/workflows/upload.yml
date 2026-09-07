@@ -21,9 +21,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - platforms: [ubuntu@22.04:amd64, ubuntu@24.04:amd64]
+          - platforms: [ubuntu@22.04:amd64, ubuntu@24.04:amd64, ubuntu@26.04:amd64]
             runs-on: [self-hosted, linux, jammy, x64, xlarge]
-          - platforms: [ubuntu@22.04:arm64, ubuntu@24.04:arm64]
+          - platforms: [ubuntu@22.04:arm64, ubuntu@24.04:arm64, ubuntu@26.04:arm64]
             runs-on: [self-hosted, linux, jammy, ARM64, xlarge]
     with:
       runs-on: ${{ toJSON(matrix.runs-on) }}
